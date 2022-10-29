@@ -6,11 +6,11 @@ const bcrypt = require("bcrypt");
 const User = require("./userModel");
 const jwt = require("jsonwebtoken");
 const app = express();
+const port = process.env.PORT || 5000
+app.use(express.json())
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: false }));
-
-const jsonWeb = "wkjerhuehoigqhoiwejho12u3484971928eyd7hf0q923103812830jef";
 
 const mongoDb =
   "mongodb+srv://nilesh123:nilesh123@cluster0.cmm2mng.mongodb.net/?retryWrites=true&w=majority";
@@ -70,6 +70,13 @@ app.post("/create", (req, res) => {
   });
 });
 
-app.listen(3000, () => {
-  console.log("http://127.0.0.1:3000");
+
+//Heroku
+if (process.env.NODE_ENV === "production"){
+  app.use(express.static("frontend/dist"))
+}
+
+
+app.listen(port, () => {
+  console.log("Server is running on port "+port);
 });
